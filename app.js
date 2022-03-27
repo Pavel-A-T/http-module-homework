@@ -1,6 +1,6 @@
 const http = require('http');
 const readLine = require('readline');
-const {units, cityDefault} = require('./config');
+const {units, cityDefault, APIKey} = require('./config');
 
 const reader = readLine.createInterface(
     {
@@ -8,10 +8,8 @@ const reader = readLine.createInterface(
         output: process.stdout
     }
 );
-const APIKey = process.env.APIKey
 
-
-async function getWeather(city)  {
+function getWeather(city)  {
     const url = `http://api.weatherstack.com/current?access_key=${APIKey}&query=${city}&units=${units}`;
     http.get(url, (res) => {
         const statusCode = res.statusCode;
@@ -48,9 +46,9 @@ const continueApp = () => {
 
 const start = () => {
     console.log("Прогноз погоды");
-    reader.question("Напечатайте название города латиницей и нажмите <ENTER> чтобы узнать прогноз: ",async (data) => {
-        if (data && data.length > 3) await getWeather(data);
-        else await getWeather(cityDefault);
+    reader.question("Напечатайте название города латиницей и нажмите <ENTER> чтобы узнать прогноз: ", (data) => {
+        if (data && data.length > 3) getWeather(data);
+        else getWeather(cityDefault);
     })
 }
 

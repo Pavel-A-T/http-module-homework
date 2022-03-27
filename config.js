@@ -1,4 +1,5 @@
 module.exports = {
     units:"m",
-    cityDefault:"Moscow"
+    cityDefault:"Moscow",
+    APIKey:process.env.APIKey
 }
